@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+
+	<template id="style" inherit_id="report.style">
+		<xpath expr="."><t>
+			@font-face {
+    			font-family: PortagoITC_TT;
+    			src: url(aloxa_vemo/static/src/fonts/PortagoITC_TT.ttf);
+			}
+		
+		
+			.bg-report {
+				position: absolute;
+				width: 1000px;
+				height: 1000px;
+				right: -500px;
+				top: -500px;
+				z-index: -1;
+			}
+			
+			.page {
+				/*font-size: x-small;*/
+			}
+			
+			.img-company-header {
+				max-width: 200px;
+				border: 1px solid #ccc;
+				border-radius: 15px;
+				box-shadow: inset 0px 2px 5px #999;
+				padding: 1em;
+			}
+			
+			.section-head {
+				margin-top: 2em;
+				font-weight: 900;
+				color: rgb(45, 45, 45);
+			}
+			.subsection-head {
+				font-style:italic;
+				color:gray;
+				margin:0;
+			}
+			
+			.vemo-sello {
+				background-image: url("/aloxa_vemo/static/src/img/sello.png");
+				padding: 5px;
+				background-repeat: no-repeat;
+				background-position: center;
+				width: 178px;
+				height: 106px;
+			}
+			.vemo-sello-info {
+				font-family: PortagoITC_TT;
+				transform: rotate(7deg);
+				-webkit-transform: rotate(7deg);
+				text-align: center;
+				color: rgb(0,84,147);
+				margin-top: 16px;
+				line-height: 1.4em;
+			}
+			.divider-horizontal {
+				border: 1px solid black;
+				border-width: 0 0 1px 0;
+				margin: 1.2em 0;
+			}
+			
+			.table-vemo {
+				border: 0 !important;
+			}
+			.table-vemo th {
+				background-color: gray !important;
+				color: white !important;
+				text-align: center;
+				font-size: x-small;
+			}
+			.table-vemo td {
+				vertical-align: middle !important;
+			}
+			.table-vemo td:first-child {
+				border-left-width: 0 !important;
+			}
+			.table-vemo td:last-child {
+				border-right-width: 0 !important;
+			}
+			.table-vemo-total td {
+				border-top-width: 4px !important;
+				background-color: #efefef;
+			}
+			.table-vemo-subtotalndesc td {
+				border-top-width: 4px !important;
+			}
+		</t></xpath>
+	</template>
+	
+</data>
+</openerp>

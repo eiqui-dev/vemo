@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+
+	<template id="vemo_external_layout_footer">
+		<div class="footer">
+			<div class="col-md-12 text-right last-page" style="font-size:x-small;">
+				<t t-if="o.company_id.custom_footer">
+                	<span t-raw="o.company_id.rml_footer"/>
+            	</t>
+			</div>
+			<div class="col-xs-6 col-xs-offset-3 text-center" style="font-size:x-small;">
+				<span class="page" /> / <span class="topage" />
+			</div>
+		</div>
+	</template>
+</data>
+</openerp>

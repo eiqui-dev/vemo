@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+
+	<template id="vemo_external_layout_header">
+		<t t-set="logo_image" t-value="o.partner_id.parent_id and o.partner_id.parent_id.image or o.partner_id.image" />
+		<div class="header">
+			<img src="/aloxa_vemo/static/src/img/circulo-negro_logo.png" class="bg-report first-page" />
+			<div class="row">
+				<div class="col-md-offset-3 col-xs-offset-3 col-md-9 col-xs-9">
+					<img t-if="logo_image" class="img img-responsive img-company-header" t-att-src="'data:image/*;base64,%s' % logo_image" />
+					<!-- span t-field="o.partner_id.image" class="img img-responsive img-company-header" t-field-options='{"widget": "image", "class": "img img-responsive img-company-header"}' / -->
+				</div>
+			</div>
+		</div>
+	</template>
+	
+</data>
+</openerp>

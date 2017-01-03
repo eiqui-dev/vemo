@@ -1,0 +1,189 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+
+	<template id="vemo_report_invoice_document">
+		<t t-set="has_discount" t-value="False" />
+		<t t-foreach="o.invoice_line" t-as="l">
+			<t t-if="l.discount"><t t-set="has_discount" t-value="True"/></t>
+		</t>
+		
+		<t t-call="aloxa_vemo.vemo_external_layout">
+			<div class="page">
+				<!-- PANEL IZQUIERDO -->
+				<div class="col-md-3 col-xs-3">
+					<img widget="image" src="/aloxa_vemo/static/src/img/vemotv_logo.png" class="img img-responsive" style="margin-bottom:2em;" />
+					<div class="first-page">
+						<h5 class="section-head"><i class="fa fa-square"></i> NUESTROS DATOS</h5>
+						<p class="subsection-head">OFICINA</p>
+						<p style="font-size: x-small;">	
+							<t t-esc="' '.join((o.company_id.street or '', o.company_id.street2 or ''))" /><br/>
+							<t t-if="o.company_id.city"><t t-esc="o.company_id.city" />, </t><t t-if="o.company_id.state_id"><span t-field="o.company_id.state_id" /></t><br/>
+							<t t-esc="o.company_id.zip or ''" />
+						</p>
+						<t t-if="o.company_id.email">
+							<p class="subsection-head">E-MAIL</p>
+							<p style="font-size: x-small;"><a t-att-href="'mailto:%s' % o.company_id.email" t-esc="o.company_id.email"/></p>
+						</t>
+						<t t-if="o.company_id.phone">
+							<p class="subsection-head">TELÉFONO</p>
+							<p style="font-size: x-small;"><b t-field="o.company_id.phone"/></p>
+						</t>
+						<t t-if="o.company_id.website">
+							<p class="subsection-head">WEB</p>
+							<p style="font-size: x-small;"><b t-field="o.company_id.website"/></p>
+						</t>
+						
+						<h5 class="section-head"><i class="fa fa-square"></i> FACTURACIÓN</h5>
+						<t t-if="o.company_id.vat">
+							<p class="subsection-head">C.I.F.</p>
+							<p style="font-size: x-small;"><t t-esc="o.company_id.vat.upper()" /></p>
+						</t>
+						<t t-if="o.company_id.name">
+							<p class="subsection-head">RAZÓN SOCIAL</p>
+							<p style="font-size: x-small;"><t t-esc="o.company_id.name.upper()"/></p>
+						</t>
+						<p class="subsection-head">DOMICILIO FISCAL</p>
+						<p style="font-size: x-small;">	
+							<t t-esc="' '.join((o.company_id.street or '', o.company_id.street2 or ''))" /><br/>
+							<t t-if="o.company_id.city"><t t-esc="o.company_id.city" />, </t><t t-if="o.company_id.state_id"><span t-field="o.company_id.state_id" /></t><br/>
+							<t t-esc="o.company_id.zip or ''" />
+						</p>
+						
+						<h5 class="section-head"><i class="fa fa-square"></i> ACUERDO DE PAGO</h5>
+						<p t-if="o.payment_mode_id" style="font-size: x-small; font-weight: bold;"><span t-field="o.payment_mode_id.note" /></p>
+						<p t-if="o.payment_term" style="font-size: x-small;"><span t-field="o.payment_term.note" /></p>
+						
+						<h5 class="section-head"><i class="fa fa-square"></i> FECHA DE VENCIMIENTO</h5>
+						<p t-if="o.date_due" style="font-size: x-small;"><span style="text-transform:uppercase; font-weight: bold;" t-field="o.date_due" /></p>
+					</div>
+					
+					
+					<div class="vemo-sello" style="margin-top : 50px">
+						<div class="vemo-sello-info">
+							<span style="font-size:x-large;">VEMO.TV</span><br/>
+							<span t-if="o.company_id.vat" 	style="font-size:x-small;">CIF. <t t-esc="o.company_id.vat.upper()" /></span>
+							<span t-if="not o.company_id.vat">&amp;nbsp;</span><br/>
+							<span style="font-size:x-large;" t-field="o.date_invoice" t-field-options='{"format": "dd/MM/yyyy"}' /><br/>
+						</div>
+					</div>
+				</div>
+				
+				<!-- PANEL DERECHO -->
+				<div class="col-md-9 col-xs-9" style="font-size:small;">
+					<h3><b>FACTURA</b></h3>
+					<p>Nº <t t-esc="o.number" /></p>
+					<b style="color:gray; font-size:x-small;">FECHA</b>
+					<p><span class="first-letter-upper" t-field="o.date_invoice" t-field-options='{"format": "MMM dd, yyyy"}'/></p>
+					<b style="color:gray; font-size:x-small;">PARA</b><br/>
+					<b><span style="text-transform:uppercase;"><span t-field="o.partner_id.name"/><t t-if="o.partner_id.title"> <span t-field="o.partner_id.title"/></t></span></b> 
+					<p><i t-field="o.partner_id.ref" style="text-transform:uppercase;" /></p>
+					<p style="margin-top:3px;">
+						<i>
+							<t t-if="o.partner_id.street or o.partner_id.street2">
+								<t t-if="o.partner_id.street"><t t-esc="o.partner_id.street.upper()" /></t><t t-if="o.partner_id.street2">, <t t-esc="o.partner_id.street2.upper()"/></t><br/>
+							</t>
+							<t t-if="o.partner_id.zip or o.partner_id.city">
+								<t t-if="o.partner_id.zip"><t t-esc="o.partner_id.zip"/></t><t t-if="o.partner_id.city"> - <t t-esc="o.partner_id.city.upper()" /></t><br/>
+							</t>
+							<t t-if="o.partner_id.state_id"><span t-field="o.partner_id.state_id" style="text-transform:uppercase;" /></t>
+						</i>
+					</p>
+					<p t-if="o.partner_id.vat"><b t-field="o.partner_id.vat" style="text-transform:uppercase;"/></p>
+					
+					<div class="divider-horizontal"></div>
+					
+					<table class="table table-bordered table-vemo">
+						<thead>
+					        <th class="text-center">DESCRIPCIÓN</th>
+					        <th class="text-center">CANTIDAD</th> 
+					        <th class="text-center">PRECIO/UD.</th>                       
+					        <t t-if="has_discount">
+					        	<th class="text-center" groups="sale.group_discount_per_so_line"><span style="white-space:nowrap;">DTO. %</span></th>
+					        </t>                        
+					        <th class="text-center">IMPORTE</th>
+						</thead>
+						<tbody class="invoice_tbody">
+							<tr t-foreach="o.invoice_line" t-as="l">        	 
+								<td>
+									<b t-field="l.product_id.name" /><br/>
+									<span style="font-size:x-small;" t-field="l.name" />
+								</td>
+						  		<td>
+						        	<span t-esc="int(l.quantity)"/>
+								</td>
+								<td class="text-right">
+									<span style="padding-left:20px; white-space:nowrap;">
+						  				<span t-field="l.price_unit"/><span class="pull-left">&amp;euro;</span>
+						  			</span>
+						   		</td>
+								<t t-if="has_discount">
+									<td class="text-right" groups="sale.group_discount_per_so_line"><t t-if="l.discount"><span t-field="l.discount"/></t></td>
+								</t>	                      
+					            <td class="text-right">
+					            	<span style="padding-left:20px; white-space:nowrap;">
+					                	<span t-field="l.price_subtotal" /><span class="pull-left">&amp;euro;</span>
+					                </span>
+					            </td>
+						  	</tr>
+						  	<tr>
+						  		<td>&amp;nbsp;</td>
+						  		<td>&amp;nbsp;</td>
+						  		<td>&amp;nbsp;</td>
+						  		<t t-if="has_discount"><td>&amp;nbsp;</td></t>
+						  		<td>&amp;nbsp;</td>
+						  	</tr>
+						  	<tr t-if="has_discount" class="table-vemo-subtotalndesc">
+						  		<td class="text-right" style="background-color: #ccc;" t-att-colspan="has_discount and '4' or '3'">Subtotal (Sin Descuento)</td>
+						  		<td class="text-right">
+						  			<span style="padding-left:20px; white-space:nowrap;">
+						  				<span t-field="o.amount_undiscount_untaxed" />
+						  				<span class="pull-left">&amp;euro;</span>
+						  			</span>
+						  		</td>
+						  	</tr>
+						  	<tr t-if="has_discount" class="success">
+						  		<td class="text-right" t-att-colspan="has_discount and '4' or '3'">Descuento</td>
+						  		<td class="text-right">
+						  			<span style="padding-left:20px; white-space:nowrap;">
+							  			<span t-esc="str('%.2f' % (o.amount_untaxed - o.amount_undiscount_untaxed)).replace(',','_').replace('.',',').replace('_',',')" />
+							  			<span class="pull-left">&amp;euro;</span>
+							  		</span>
+						  		</td>
+						  	</tr>
+						  	<tr class="table-vemo-subtotal">
+						  		<td class="text-right" t-att-colspan="has_discount and '4' or '3'"><b>Subtotal</b></td>
+						  		<td class="text-right">
+						  			<span style="padding-left:20px; white-space:nowrap;">
+						  				<b t-field="o.amount_untaxed" />
+						  				<span class="pull-left">&amp;euro;</span>
+						  			</span>
+						  		</td>
+						  	</tr>
+						  	<tr class="table-vemo-impuestos">
+						  		<td class="text-right" t-att-colspan="has_discount and '4' or '3'">Impuestos</td>
+						  		<td class="text-right">
+						  			<span style="padding-left:20px; white-space:nowrap;">
+						  				<span t-field="o.amount_tax" />
+						  				<span class="pull-left">&amp;euro;</span>
+						  			</span>
+						  		</td>
+						  	</tr>
+						  	<tr class="table-vemo-total">
+						  		<td class="text-right" t-att-colspan="has_discount and '4' or '3'"><b>Total</b></td>
+						  		<td class="text-right">
+						  			<span style="padding-left:20px; white-space:nowrap;">
+						  				<b t-field="o.amount_total" />
+						  				<span class="pull-left">&amp;euro;</span>
+						  			</span>
+						  		</td>
+						  	</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</t>
+	</template> 
+
+</data>
+</openerp>
